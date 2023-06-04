@@ -7,6 +7,7 @@ static int main_ret = 0;
 static int test_count = 0;
 static int test_pass = 0;
 
+
 #define EXPECT_EQ_BASE(equality, expect, actual, format) \
     do {\
         test_count++;\
@@ -50,11 +51,32 @@ static void test_parse_invalid_value() {
     EXPECT_EQ_INT(LEPT_NULL, lept_get_type(&v));
 }
 
+/**
+修正关于 LEPT_PARSE_ROOT_NOT_SINGULAR 的单元测试，若 json 在一个值之后，空白之后还有其它字符，则要返回 LEPT_PARSE_ROOT_NOT_SINGULAR。
+ **/
 static void test_parse_root_not_singular() {
     lept_value v;
     v.type = LEPT_FALSE;
-    EXPECT_EQ_INT(LEPT_PARSE_ROOT_NOT_SINGULAR, lept_parse(&v, "null x"));
+    EXPECT_EQ_INT(LEPT_PARSE_ROOT_NOT_SINGULAR, lept_parse(&v, "null x"));/*  修改lept_parse  */
     EXPECT_EQ_INT(LEPT_NULL, lept_get_type(&v));
+}
+
+
+/**
+ * 参考 `test_parse_null()`，加入 `test_parse_true()`、`test_parse_false()` 单元测试。
+ **/
+static void test_parse_true() {
+    lept_value v;
+    v.type = LEPT_FALSE;
+    EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, "true"));
+    EXPECT_EQ_INT(LEPT_TRUE, lept_get_type(&v));
+}
+
+static void test_parse_false() {
+    lept_value v;
+    v.type = LEPT_TRUE;
+    EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, "false"));
+    EXPECT_EQ_INT(LEPT_FALSE, lept_get_type(&v));
 }
 
 static void test_parse() {
@@ -62,6 +84,9 @@ static void test_parse() {
     test_parse_expect_value();
     test_parse_invalid_value();
     test_parse_root_not_singular();
+    
+    test_parse_false();
+    test_parse_true();
 }
 
 int main() {
