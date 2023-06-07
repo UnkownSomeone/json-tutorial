@@ -215,7 +215,7 @@ unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
         /* ... */
 ~~~
 
-注意到 `char` 带不带符号，是实现定义的。如果编译器定义 `char` 为带符号的话，`(unsigned char)ch >= 0x80` 的字符，都会变成负数，并产生 `LEPT_PARSE_INVALID_STRING_CHAR` 错误。我们现时还没有测试 ASCII 以外的字符，所以有没有转型至不带符号都不影响，但下一单元开始处理 Unicode 的时候就要考虑了。
+注意到 `char` 带不带符号，是事先定义的。如果编译器定义 `char` 为带符号的话，`(unsigned char)ch >= 0x80` 的字符，都会变成负数，并产生 `LEPT_PARSE_INVALID_STRING_CHAR` 错误。我们现时还没有测试 ASCII 以外的字符，所以有没有转型至不带符号都不影响，但下一单元开始处理 Unicode 的时候就要考虑了。
 
 ## 4. 性能优化的思考
 

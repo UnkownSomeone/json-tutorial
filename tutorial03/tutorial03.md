@@ -277,8 +277,15 @@ static int lept_parse_string(lept_context* c, lept_value* v) {
 之前的单元都是固定长度的数据类型（fixed length data type），而字符串类型是可变长度的数据类型（variable length data type），因此本单元花了较多篇幅讲述内存管理和数据结构的设计和实现。字符串的解析相对数字简单，以下的习题难度不高，同学们应该可轻松完成。
 
 1. 编写 `lept_get_boolean()` 等访问函数的单元测试，然后实现。
+
 2. 实现除了 `\u` 以外的转义序列解析，令 `test_parse_string()` 中所有测试通过。
+
+   > 看测试其实就是 TEST_STRING("Hello\nWorld", "\"Hello\\nWorld\""); 右边的转义 杠杠n和杠杠引号需要得到 杠n和引号
+   >
+   > TEST_STRING("\" \\ / \b \f \n \r \t", "\"\\\" \\\\ \\/ \\b \\f \\n \\r \\t\"");
+
 3. 解决 `test_parse_invalid_string_escape()` 和 `test_parse_invalid_string_char()` 中的失败测试。
+
 4. 思考如何优化 `test_parse_string()` 的性能，那些优化方法有没有缺点。
 
 如果你遇到问题，有不理解的地方，或是有建议，都欢迎在评论或 [issue](https://github.com/miloyip/json-tutorial/issues) 中提出，让所有人一起讨论。
